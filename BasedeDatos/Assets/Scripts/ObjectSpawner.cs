@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public class ObjectSpawner : MonoBehaviour
@@ -10,6 +11,7 @@ public class ObjectSpawner : MonoBehaviour
     public Transform Point3;
     public float spawnInterval = 2f;
     public float speed = 5f;
+    public GameObject car;
 
     void Start()
     {
@@ -61,5 +63,6 @@ public class ObjectCollision : MonoBehaviour
         {
             Destroy(gameObject); 
         }
+
     }
 }
