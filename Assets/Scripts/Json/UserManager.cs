@@ -10,8 +10,9 @@ public class UserManager : MonoBehaviour
     void Start ()
     {
         filePath = Application.persistentDataPath + "/users.json ";
+        Debug.Log("Ruta del archivo JSON: " + Application.persistentDataPath);
 
-        if(!File.Exists(filePath))
+        if (!File.Exists(filePath))
         {
             File.WriteAllText(filePath, JsonUtility.ToJson(new UserDataBase(), true));
         }
@@ -64,5 +65,29 @@ public class UserManager : MonoBehaviour
     {
         string json = JsonUtility.ToJson(dataBase, true);
         File.WriteAllText(filePath, json);
+    }
+
+    public void SaveUserScore(string username, float score)
+    {
+        UserDataBase dataBase = LoadUserData();
+
+        foreach (User user in dataBase.users)
+        {
+            if (user.username == username)
+            {
+                if (score > user.bestScore) 
+                {
+                    user.bestScore = score;
+                    Debug.Log("Nueva mejor puntuación para " + username + ": " + score);
+                }
+                else
+                {
+                    Debug.Log("Puntuación no supera la mejor anterior.");
+                }
+                break;
+            }
+        }
+
+        SaveUserData(dataBase); 
     }
 }

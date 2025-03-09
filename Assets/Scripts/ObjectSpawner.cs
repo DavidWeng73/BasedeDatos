@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public class ObjectSpawner : MonoBehaviour
@@ -55,13 +54,22 @@ public class ObjectSpawner : MonoBehaviour
     }
 }
 
-public class ObjectCollision : MonoBehaviour
+public class ObjectCollision: MonoBehaviour
 {
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Wall"))
         {
             Destroy(gameObject); 
+        }
+
+        if (collision.gameObject.CompareTag("Player")) 
+        {
+            CarController car = collision.gameObject.GetComponent<CarController>();
+            if (car != null)
+            {
+                car.OnGameOver(); 
+            }
         }
 
     }
