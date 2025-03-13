@@ -28,6 +28,8 @@ public class CarController : MonoBehaviour
         }
 
         MoverCoche();
+        SobrevivienteAchievement();
+        InmortalAchievement();
     }
 
     void CambiarPuntoDerecha()
@@ -71,9 +73,75 @@ public class CarController : MonoBehaviour
 
     public void OnGameOver()
     {
-        string username = PlayerPrefs.GetString("CurrentUser", "Guest"); 
-        FindObjectOfType<UserManager>().SaveUserScore(username, playTime); 
-        FindObjectOfType<RankingManager>().SaveScoreToCSV(username, playTime); 
-        SceneManager.LoadScene("Ranking"); 
+        Debug.Log("GAME OVER! Guardando puntuación...");
+        string username = PlayerPrefs.GetString("CurrentUser", "Guest");
+        float bestScore = PlayerPrefs.GetFloat(username + "_BestScore", 0f);
+
+        if (playTime > bestScore) 
+        {
+            PlayerPrefs.SetFloat(username + "_BestScore", playTime);
+            PlayerPrefs.Save();
+            Debug.Log("Nueva mejor puntuación guardada para " + username + ": " + playTime);
+        }
+        else
+        {
+            Debug.Log("La puntuación no superó la mejor puntuación actual.");
+        }
+
+        UserManager userManager = FindObjectOfType<UserManager>();
+        RankingManager rankingManager = FindObjectOfType<RankingManager>();
+
+        if (userManager != null)
+        {
+            userManager.SaveUserScore(username, playTime);
+        }
+        else
+        {
+            Debug.LogError("UserManager no encontrado en la escena.");
+        }
+
+        if (rankingManager != null)
+        {
+            rankingManager.SaveScoreToCSV(username, playTime);
+        }
+        else
+        {
+            Debug.LogError("RankingManager no encontrado en la escena.");
+        }
+
+        SceneManager.LoadScene("Ranking");
     }
+
+    void SobrevivienteAchievement()
+    {
+        if (playTime >= 10f)
+        {
+            AchievementsManager achievementsManager = FindObjectOfType<AchievementsManager>();
+            if (achievementsManager != null)
+            {
+                achievementsManager.UnlockAchievement("Sobreviviente");
+            }
+            else
+            {
+                Debug.LogError("No se encontró `AchievementsManager` en la escena.");
+            }
+        }
+    }
+
+    void InmortalAchievement()
+    {
+        if (playTime >= 30f)
+        {
+            AchievementsManager achievementsManager = FindObjectOfType<AchievementsManager>();
+            if (achievementsManager != null)
+            {
+                achievementsManager.UnlockAchievement("Inmortal");
+            }
+            else
+            {
+                Debug.LogError("No se encontró `AchievementsManager` en la escena.");
+            }
+        }
+    }
+
 }

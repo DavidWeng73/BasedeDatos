@@ -10,12 +10,12 @@ public class ObjectSpawner : MonoBehaviour
     public Transform Point3;
     public float spawnInterval = 2f;
     public float speed = 5f;
-    public GameObject car;
 
     void Start()
     {
         StartCoroutine(SpawnObjects());
     }
+
     IEnumerator SpawnObjects()
     {
         while (true)
@@ -39,38 +39,17 @@ public class ObjectSpawner : MonoBehaviour
             }
 
             GameObject newObject = Instantiate(objectPrefab, spawnPoint.position, Quaternion.identity);
-
             StartCoroutine(MoveObjectDown(newObject));
         }
     }
+
     IEnumerator MoveObjectDown(GameObject obj)
     {
-        while (obj.transform.position.y > -5f) 
+        while (obj.transform.position.y > -5f)
         {
             obj.transform.Translate(Vector2.down * speed * Time.deltaTime);
             yield return null;
         }
         Destroy(obj);
-    }
-}
-
-public class ObjectCollision: MonoBehaviour
-{
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Wall"))
-        {
-            Destroy(gameObject); 
-        }
-
-        if (collision.gameObject.CompareTag("Player")) 
-        {
-            CarController car = collision.gameObject.GetComponent<CarController>();
-            if (car != null)
-            {
-                car.OnGameOver(); 
-            }
-        }
-
     }
 }

@@ -10,6 +10,7 @@ public class RankingManager : MonoBehaviour
     void Start()
     {
         filePath = Application.persistentDataPath + "/ranking.csv";
+        Debug.Log("Ruta del archivo CSV: " + filePath);
 
         if (!File.Exists(filePath))
         {

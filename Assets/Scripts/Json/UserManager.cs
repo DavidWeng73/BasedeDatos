@@ -33,6 +33,8 @@ public class UserManager : MonoBehaviour
 
         dataBase.users.Add (new User { username = username, email = email, password = password });
         SaveUserData(dataBase);
+        PlayerPrefs.SetString("CurrentUser", username);
+        PlayerPrefs.Save();
         Debug.Log("Regisro completado");
         return true;
     }
@@ -45,6 +47,8 @@ public class UserManager : MonoBehaviour
         {
             if ((user.username == userOrEmail || user.email == userOrEmail) && user.password == password)
             {
+                PlayerPrefs.SetString("CurrentUser", user.username);
+                PlayerPrefs.Save();
                 Debug.Log("Login Completado");
                 return true;
             }

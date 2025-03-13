@@ -14,4 +14,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameScene.unity
     guid: b8f260e4a71ccf0408c8c18354eb026b
+  - enabled: 1
+    path: Assets/Scenes/Ranking.unity
+    guid: 86243dd3260cb4749afebbd903cbfd0d
+  - enabled: 1
+    path: Assets/Scenes/AchievementsScene.unity
+    guid: 9d62fcbfe03ddb34d9c62d0dcb28fb81
+  - enabled: 1
+    path: Assets/Scenes/SearchScene.unity
+    guid: b23091e029bb2864face1f42dc073873
   m_configObjects: {}
